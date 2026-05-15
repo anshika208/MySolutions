@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int noOfIslands = 0;
+        vector<vector<int>> vis(m,vector<int>(n,0));
+        queue <pair<int,int>> q;
+        //matrix for 8 directions
+        int drow[] = {-1,0,1,0};
+        int dcol[] = {0,1,0,-1};
+        //traverse and see the first 1 i.e. land and push it in the queue
+        for(int i=0; i<m;i++){
+            for(int j= 0; j<n;j++){
+                if(grid[i][j] == '1' && vis[i][j] != 1) {
+                    q.push({i,j});
+                    vis[i][j] = 1;
+                    noOfIslands = noOfIslands + 1;
+
+                    while(!q.empty()){
+                        int r = q.front().first;
+                        int c = q.front().second;
+                        q.pop();
+
+                        for(int k =0; k<4; k++){
+                         int nrow = r + drow[k];
+                         int ncol = c + dcol[k];
+
+                         if(nrow >=0 && nrow<m && ncol>=0 && ncol <n && grid[nrow][ncol] == '1' && vis[nrow][ncol]!= 1){
+                            q.push({nrow,ncol});
+                            vis[nrow][ncol] = 1;
+                         }
+                        }
+                    }
+                }
+            }
+        }
+
+        return noOfIslands;
+    }
+};
